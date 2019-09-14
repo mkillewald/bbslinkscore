@@ -51,8 +51,8 @@ changewhere "BBSLink Score"
 /*      Score code: bretody    Barren Realms Elite Today's News           */
 /*      Score code: breyest    Barren Realms Elite Yesterday's News       */
 /*      Score code: falc       Falcon's Eye                               */
-/*      Score code: feyetody   Falcon's Eye Today's News                  */
-/*      Score code: feyeyest   Falcon's Eye Yesterday's News              */
+/*      Score code: falctody   Falcon's Eye Today's News                  */
+/*      Score code: falcyest   Falcon's Eye Yesterday's News              */
 /*      Score code: fhontody   Falcon's Honor Today's News                */
 /*      Score code: fhonyest   Falcon's Honor Yesterday's News            */
 /*      Score code: arcl       The Arcadian Legends                       */
@@ -144,7 +144,7 @@ fetchWebRequest: procedure expose se tr mg esc ver s. g. resultArr.
   parse arg uri, fileName, type 
   
   filePath=g.tempPath||fileName
-  userAgent= "http_get/1.0 (AmigaOS 3.1; Amiga; 680x0; ks:40.68; wb:40.42) CNet/5 BBSLinkSolar/"strip(ver,'L','v')" ("g.bbsName")"
+  userAgent= "http_get/1.0 (AmigaOS 3.1; Amiga; 680x0; ks:40.68; wb:40.42) CNet/5 BBSLinkScore/"strip(ver,'L','v')" ("g.bbsName")"
 
   /* run through outer loop at least once, repeat the loop if g.autoRetry is 
      enabled and line count in resultArr.0 == 0 */
