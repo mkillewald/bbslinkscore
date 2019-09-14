@@ -5,7 +5,7 @@ options results;signal on SYNTAX;signal on ERROR;signal on IOERR
 a=sourceline(2);parse var a . " " title ", " ver " (" vdate ") by " author " " .
 tr=transmit;se=sendstring;gc=getchar;gu=getuser;gs=getscratch;mg=maygetchar
 bbsidentify bbs;cv=left(word(result,3),4);cnet4=(datatype(cv,"n")=1&cv>"4.25")
-bbsidentify name;g.bbsName=strip(result, 'B');esc="1b5b"x
+bbsidentify name;g.bbsName=strip(result, 'B');esc="1b5b"x;cty="19"x;ctq="11"x
 rs="rexxsupport.library";if ~show("l",rs) then if ~addlib(rs,0,-30) then exit
 parse source . . fp .; df=left(fp,max(lastpos('/',fp),lastpos(':',fp)))
 parse arg g.scoreCode
@@ -102,6 +102,9 @@ g.debug = g.debug&g.uid==1
 
 /* Show the score data */
 call getScore
+
+/* reset ANSI env */
+tr ctq"Q1}"
 
 EXIT:
   se s.anyKey
