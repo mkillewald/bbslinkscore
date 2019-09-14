@@ -45,8 +45,8 @@ This is public domain software. Use at your own risk.
     Score code: bretody    Barren Realms Elite Today's News   
     Score code: breyest    Barren Realms Elite Yesterday's News     
     Score code: falc       Falcon's Eye   
-    Score code: feyetody   Falcon's Eye Today's News   
-    Score code: feyeyest   Falcon's Eye Yesterday's News       
+    Score code: falctody   Falcon's Eye Today's News   
+    Score code: falcyest   Falcon's Eye Yesterday's News       
     Score code: fhontody   Falcon's Honor Today's News   
     Score code: fhonyest   Falcon's Honor Yesterday's News   
     Score code: arcl       The Arcadian Legends    
