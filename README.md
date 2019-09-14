@@ -31,34 +31,34 @@ This is public domain software. Use at your own risk.
     ^ NOTE: "Q" here is a ctrl-Q
 
     Replace SCORE_CODE with one of the following: 
-
-    Score code: lord       Legend of the Red Dragon
-    Score code: lord2      Legend of the Red Dragon II: New World
-    Score code: mzkl       MZK LORD
-    Score code: ooii       Operation: Overkill II
-    Score code: usrpuscr   Usurper User Rankings
-    Score code: usrptscr   Usurper Team Rankings
-    Score code: usrppkil   Usurper Player Killers
-    Score code: usrpmkil   Usurper Monster Killers 
-    Score code: usrpnews   Usurper News 
-    Score code: bre        Barren Realms Elite
-    Score code: bretody    Barren Realms Elite Today's News
-    Score code: breyest    Barren Realms Elite Yesterday's News  
-    Score code: falc       Falcon's Eye
-    Score code: feyetody   Falcon's Eye Today's News
-    Score code: feyeyest   Falcon's Eye Yesterday's News    
-    Score code: fhontody   Falcon's Honor Today's News
-    Score code: fhonyest   Falcon's Honor Yesterday's News
-    Score code: arcl       The Arcadian Legends 
-    Score code: arcltody   The Arcadian Legends Today's News
-    Score code: arclyest   The Arcadian Legends Yesterday's News
-    Score code: netr       Netrunner
-    Score code: assn       Assassin
-    Score code: bord       Bordello
-    Score code: junk       Junkyard
-    Score code: mega       Mega Slots
-    Score code: fish       Fresh Water Fishing Sim
-    Score code: lmon       Lemondade 
-
+```
+    Score code: lord       Legend of the Red Dragon   
+    Score code: lord2      Legend of the Red Dragon II: New World   
+    Score code: mzkl       MZK LORD   
+    Score code: ooii       Operation: Overkill II   
+    Score code: usrpuscr   Usurper User Rankings   
+    Score code: usrptscr   Usurper Team Rankings   
+    Score code: usrppkil   Usurper Player Killers   
+    Score code: usrpmkil   Usurper Monster Killers    
+    Score code: usrpnews   Usurper News    
+    Score code: bre        Barren Realms Elite   
+    Score code: bretody    Barren Realms Elite Today's News   
+    Score code: breyest    Barren Realms Elite Yesterday's News     
+    Score code: falc       Falcon's Eye   
+    Score code: feyetody   Falcon's Eye Today's News   
+    Score code: feyeyest   Falcon's Eye Yesterday's News       
+    Score code: fhontody   Falcon's Honor Today's News   
+    Score code: fhonyest   Falcon's Honor Yesterday's News   
+    Score code: arcl       The Arcadian Legends    
+    Score code: arcltody   The Arcadian Legends Today's News   
+    Score code: arclyest   The Arcadian Legends Yesterday's News   
+    Score code: netr       Netrunner   
+    Score code: assn       Assassin   
+    Score code: bord       Bordello   
+    Score code: junk       Junkyard   
+    Score code: mega       Mega Slots   
+    Score code: fish       Fresh Water Fishing Sim   
+    Score code: lmon       Lemondade    
+```
 **************************************************************************
 ### -X-caliber BBS telnet://bbs.aholix.net:6800
