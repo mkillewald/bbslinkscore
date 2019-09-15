@@ -2,7 +2,7 @@
 
 ### For the stable release verision, return to branch [master](https://github.com/mkillewald/bbslinkscore/tree/master), or download the [latest release](https://github.com/mkillewald/bbslinkscore/releases/latest)
 
-# C-Net BBSLink Score 1.0.0 
+# C-Net BBSLink Score 1.0.1 (devel version)
 
 A C-Net Pfile written in ARexx used to display the BBSLink Game Leaderboards on a C-Net Amiga BBS 
 http://www.bbslink.net/scores.php
