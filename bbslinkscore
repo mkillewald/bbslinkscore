@@ -97,8 +97,13 @@ s.anyKey           = 'Smash any key to continue..'
 /* End of SysOp Configurable Options **************************************/
 /**************************************************************************/
 
+c.err  = esc"0;31m"
+c.blink= esc"5m"
+c.reset= esc"0m" 
+
 if ~exists(g.tempPath) then address command'makedir 'strip(g.tempPath,"T","/")
-  
+if ~exists("c:http_get") then signal badHttp
+   
 gu 40;g.uid = space(result ,0)
 
 g.debug = g.debug&g.uid==1
@@ -258,6 +263,32 @@ getScore: procedure expose se tr mg esc ver s. g. resultArr.
   /* Delete the results file */
   call deleteFile(filename)
 return
+
+guruError: procedure expose tr c. g.
+  parse arg errMsg1, errMsg2 
+  cls
+  tr c.err
+  
+  tr c.blink"Û"copies('ß', g.maxCol-2)"Û"
+  
+  call wordWrap(errMsg1, g.maxCol-4)
+  do i=1 to resultArr.0
+    tr c.blink"Û "c.reset||c.err|| center(resultArr.i, g.maxCol-4)||c.blink" Û"
+  end
+  
+  call wordWrap(errMsg2, g.maxCol-4)
+  do i=1 to resultArr.0
+    tr c.blink"Û "c.reset||c.err|| center(resultArr.i, g.maxCol-4)||c.blink" Û"
+  end
+  
+  tr c.blink"Û"copies('Ü', g.maxCol-2)"Û"c.reset
+return
+
+badHttp:
+  errMsg1 = "Could not find http_get! Please re-read the install instructions."
+  errMsg2 = "Guru Meditation #00000000:084DH77F"
+  call guruErr(errMsg1, errMsg2)
+  exit
 
 /**************************************************************************/
   
