@@ -64,7 +64,7 @@ changewhere "BBSLink Score"
 /*      Score code: junk       Junkyard                                   */
 /*      Score code: mega       Mega Slots                                 */
 /*      Score code: fish       Fresh Water Fishing Sim                    */
-/*      Score code: lmon       Lemondade                                  */
+/*      Score code: lmon       Lemonade                                   */
 /*                                                                        */
 /**************************************************************************/
 /* SysOp Configurable Options *********************************************/
@@ -161,7 +161,7 @@ fetchWebRequest: procedure expose se tr mg esc ver s. g. resultArr.
     resultArr.1=""
     
     /* make web request */
-    httpcmd = 'run >nil: http_get "'uri'" >'filePath
+    httpcmd = 'run >nil: http_get -u "'userAgent'" "'uri'" >'filePath
     address command httpcmd
     
     call time('r')
@@ -240,11 +240,11 @@ getScore: procedure expose se tr mg esc ver s. g. resultArr.
   /* Delete the last results file in case it wasn't deleted last time */
   call deleteFile(filename)
 
-  /* Fetch the wall from BBSLink */
+  /* Fetch the score data from BBSLink */
   rcd="http://games.bbslink.net/score.php?door="g.scoreCode"&type=ansi"
   call fetchWebRequest(rcd, filename, 0)
   
-  /* display wall */
+  /* display score data */
   if resultArr.0 > 0 then do
     cls
     do i=1 to resultArr.0
