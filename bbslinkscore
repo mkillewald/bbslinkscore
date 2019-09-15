@@ -84,7 +84,7 @@ g.debug            = 0  /* Show Errors to the SysOp's (account 1) screen.
                            This is for debug purposes and should not be left
                            on during normal operations */
 
-/* ok to change these as needed for your system */                          
+/* ok to change these as needed for your system */
 g.timeout          = 20 /* API http request timeout in seconds */
 
 /* ok to change these messages, but do not add ANSI or MCI codes. */
@@ -99,14 +99,15 @@ s.anyKey           = 'Smash any key to continue..'
 
 c.err  = esc"0;31m"
 c.blink= esc"5m"
-c.reset= esc"0m" 
+c.reset= esc"0m"
 
 if ~exists(g.tempPath) then address command'makedir 'strip(g.tempPath,"T","/")
-if ~exists("c:http_get") then signal badHttp
-   
-gu 40;g.uid = space(result ,0)
 
+gu 40; g.uid = space(result ,0)  /* account id */
+gu 27; g.maxCol=result-1         /* term width */
 g.debug = g.debug&g.uid==1
+
+if ~exists("c:http_get") then signal badHttp
 
 /* Show the score data */
 call getScore
@@ -125,23 +126,23 @@ EXIT:
 /* Delete the results file */
 deleteFile: procedure expose tr g.
   parse arg filename
-  
+
   filePath= g.tempPath||filename
-  
+
   if exists(filePath) then do
     do delLoop = 1 to 3
       if delete(filepath) then leave delLoop
       call delay(25)
     end
     if g.debug & exists(filePath) then tr 'BBSLINKWALL: Unable to delete 'filePath' after 'delLoop' tries.'
-  end 
+  end
 return
 
-/* fetches web request 
+/* fetches web request
    @param uri       the url to retrieve
    @param fileName  the filename where to store results
    @param type      0=retrieve, 1=send
-   
+
    returns results as an array called resultsArr structured as:
      resultArr.0 = line count
      resultArr.1 = line 1 string
@@ -149,31 +150,31 @@ return
       .
       .
       .
-     resultArr.n = line n string  
+     resultArr.n = line n string
 */
 fetchWebRequest: procedure expose se tr mg esc ver s. g. resultArr.
-  parse arg uri, fileName, type 
-  
+  parse arg uri, fileName, type
+
   filePath=g.tempPath||fileName
   userAgent= "http_get/1.0 (AmigaOS 3.1; Amiga; 680x0; ks:40.68; wb:40.42) CNet/5 BBSLinkScore/"strip(ver,'L','v')" ("g.bbsName")"
 
-  /* run through outer loop at least once, repeat the loop if g.autoRetry is 
+  /* run through outer loop at least once, repeat the loop if g.autoRetry is
      enabled and line count in resultArr.0 == 0 */
-     
-  do until ~g.autoRetry | resultArr.0>0 
+
+  do until ~g.autoRetry | resultArr.0>0
     /* clear any previous data in resultArr */
     drop resultArr.
-    
+
     /* init resultArr */
     resultArr.0=0
     resultArr.1=""
-    
+
     /* make web request */
     httpcmd = 'run >nil: http_get -u "'userAgent'" "'uri'" >'filePath
     address command httpcmd
-    
+
     call time('r')
-    
+
     /* show status message */
     if g.showStatus then do
       if type then reqType=s.sending
@@ -181,11 +182,11 @@ fetchWebRequest: procedure expose se tr mg esc ver s. g. resultArr.
       dotCount=0
       se reqType
     end
-    
-    /* inner loop checks if the results file is ready and exits if the 
+
+    /* inner loop checks if the results file is ready and exits if the
        file is ready or the timeout period has been reached */
-      
-    bufferflush   
+
+    bufferflush
     do until time('e') > g.timeout + 1
       mg
       if result=="NOCHAR" then nop
@@ -196,9 +197,9 @@ fetchWebRequest: procedure expose se tr mg esc ver s. g. resultArr.
         leave /* cause loop to exit */
       end
       else call check
-      
+
       call delay(25) /* 1/2 second */
-   
+
       /* check if results file is ready yet */
       if exists(filePath) then do
         if open(BLW, filePath, R) then do
@@ -216,42 +217,42 @@ fetchWebRequest: procedure expose se tr mg esc ver s. g. resultArr.
         else if g.debug then tr "BBSLINKWALL: "filePath" exists but could not open"
       end
       else if g.debug then tr "BBSLINKWALL: "filePath" does not exist, could not open"
-      
+
       /* update status message */
-      if g.showStatus then do 
+      if g.showStatus then do
         if dotCount==0 then se " "s.escToCancel
         else se "."
         dotCount = dotCount + 1
-      end    
+      end
     end
     bufferflush
-    
+
     /* clear status message */
     if g.showStatus then do
       computeLen = length(reqType) + length(s.escToCancel) + dotCount + 1
       se esc||computeLen"D"copies(' ', computeLen)||esc||computeLen"D"
     end
   end
-  
+
   /* check if request timed out */
   if resultArr.0==0 then do
     resultArr.0=1
     reslutArr.1=s.reqTimedOut
-  end  
+  end
 return
 
 /* Show the score data */
 getScore: procedure expose se tr mg esc ver s. g. resultArr.
-  
+
   filename= "user"g.uid
-  
+
   /* Delete the last results file in case it wasn't deleted last time */
   call deleteFile(filename)
 
   /* Fetch the score data from BBSLink */
   rcd="http://games.bbslink.net/score.php?door="g.scoreCode"&type=ansi"
   call fetchWebRequest(rcd, filename, 0)
-  
+
   /* display score data */
   if resultArr.0 > 0 then do
     cls
@@ -259,39 +260,91 @@ getScore: procedure expose se tr mg esc ver s. g. resultArr.
       tr resultArr.i
     end
   end
-  
+
   /* Delete the results file */
   call deleteFile(filename)
 return
 
-guruError: procedure expose tr c. g.
-  parse arg errMsg1, errMsg2 
+/* word wraps an input string at a given width and will not split any words
+   @param text  the input string to word wrap
+   @param width the width to wrap at
+
+   results will be placed into an array called resultsArr structured as:
+     resultArr.0 = line count
+     resultArr.1 = line 1 string
+     resultArr.2 = line 2 string
+      .
+      .
+      .
+     resultArr.n = line n string
+*/
+wordWrap: procedure expose resultArr.
+  parse arg text, width
+
+  /* clear any previous data in the results array */
+  drop resultArr.
+
+  /* line count is held at position 0, init it to line 1 */
+  resultArr.0 = 1
+
+  if length(text) <= width then do
+    resultArr.1 = text
+    return
+  end
+
+  line = resultArr.0
+  resultArr.1 = ""
+  do while text ~= ""
+      parse var text word text
+
+      /* check if current line + next word < width */
+      if length(resultArr.line) + length(word) + 1 <= width then do
+          /* add word to current line */
+          if resultArr.line=="" then resultArr.line = word
+          else resultArr.line = resultArr.line" "word
+      end
+      else do
+          /* start new line with with next word */
+          line = line + 1
+          resultArr.line = word
+    end
+  end
+
+  /* store final line count at position 0 of the array */
+  resultArr.0 = line
+return
+
+guruError: procedure expose tr se gc c. g.
+  parse arg errMsg1, errMsg2
   cls
   tr c.err
-  
+
   tr c.blink"Û"copies('ß', g.maxCol-2)"Û"
-  
+
   call wordWrap(errMsg1, g.maxCol-4)
   do i=1 to resultArr.0
     tr c.blink"Û "c.reset||c.err|| center(resultArr.i, g.maxCol-4)||c.blink" Û"
   end
-  
+
   call wordWrap(errMsg2, g.maxCol-4)
   do i=1 to resultArr.0
     tr c.blink"Û "c.reset||c.err|| center(resultArr.i, g.maxCol-4)||c.blink" Û"
   end
-  
+
   tr c.blink"Û"copies('Ü', g.maxCol-2)"Û"c.reset
+  tr
+  se c.err|| center("Press ANY KEY to continue..", g.maxCol)
+  gc
 return
 
 badHttp:
   errMsg1 = "Could not find http_get! Please re-read the install instructions."
   errMsg2 = "Guru Meditation #00000000:084DH77F"
-  call guruErr(errMsg1, errMsg2)
+  call guruError(errMsg1, errMsg2)
   exit
 
 /**************************************************************************/
-  
+
 CHECK:
   if ARG() & ARG(1)~="###PANIC" then return ARG(1)
   getcarrier
@@ -302,7 +355,7 @@ CHECK:
   logentry "Lost Carrier!!"
   bufferflush
   exit
-  
+
 SYNTAX:
 ERROR:
 IOERR:
