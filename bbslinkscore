@@ -75,7 +75,7 @@ changewhere "BBSLink Score"
 /* this path will be created as needed */
 g.tempPath         = 'RAM:BBSLINKSCORE/' /* must end with a trailing slash */
 
-/* these swtiches (0=off, 1=on) control how the Wall functions */
+/* these swtiches (0=off, 1=on) control how Score functions */
 g.showStatus       = 1  /* Show http type status messages to the user */
 g.autoRetry        = 1  /* Auto-retry web request if it times out or returns
                            a blank result. User may cancel the request by
@@ -295,18 +295,18 @@ wordWrap: procedure expose resultArr.
   line = resultArr.0
   resultArr.1 = ""
   do while text ~= ""
-      parse var text word text
+    parse var text word text
 
-      /* check if current line + next word < width */
-      if length(resultArr.line) + length(word) + 1 <= width then do
-          /* add word to current line */
-          if resultArr.line=="" then resultArr.line = word
-          else resultArr.line = resultArr.line" "word
-      end
-      else do
-          /* start new line with with next word */
-          line = line + 1
-          resultArr.line = word
+    /* check if current line + next word < width */
+    if length(resultArr.line) + length(word) + 1 <= width then do
+      /* add word to current line */
+      if resultArr.line=="" then resultArr.line = word
+      else resultArr.line = resultArr.line" "word
+    end
+    else do
+      /* start new line with with next word */
+      line = line + 1
+      resultArr.line = word
     end
   end
 
