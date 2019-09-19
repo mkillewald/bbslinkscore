@@ -58,7 +58,7 @@ This is public domain software. Use at your own risk.
     Score code: junk       Junkyard   
     Score code: mega       Mega Slots   
     Score code: fish       Fresh Water Fishing Sim   
-    Score code: lmon       Lemondade    
+    Score code: lmon       Lemonade    
 ```
 **************************************************************************
 ### -X-caliber BBS telnet://bbs.aholix.net:6800
