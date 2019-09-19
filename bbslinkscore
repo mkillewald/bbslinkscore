@@ -73,7 +73,7 @@ changewhere "BBSLink Score"
 /* SysOp Configurable Options *********************************************/
 
 /* this path will be created as needed */
-g.tempPath         = 'RAM:BBSLINKSCORE/' /* must end with a trailing slash */
+g.tempPath         = 'RAM:BBSLINK/' /* must end with a trailing slash */
 
 /* these swtiches (0=off, 1=on) control how Score functions */
 g.showStatus       = 1  /* Show http type status messages to the user */
@@ -244,7 +244,8 @@ return
 /* Show the score data */
 getScore: procedure expose se tr mg esc ver s. g. resultArr.
 
-  filename= "user"g.uid
+  filename= "score-"||g.scoreCode||g.uid
+  filePath= g.tempPath||filename
 
   /* Delete the last results file in case it wasn't deleted last time */
   call deleteFile(filename)
@@ -254,11 +255,9 @@ getScore: procedure expose se tr mg esc ver s. g. resultArr.
   call fetchWebRequest(rcd, filename, 0)
 
   /* display score data */
-  if resultArr.0 > 0 then do
+  if exists(filePath) then do
     cls
-    do i=1 to resultArr.0
-      tr resultArr.i
-    end
+    sendfile filePath
   end
 
   /* Delete the results file */
