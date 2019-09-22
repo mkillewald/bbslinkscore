@@ -44,6 +44,7 @@ changewhere "BBSLink Score"
 /*      Score code: lord       Legend of the Red Dragon                   */
 /*      Score code: lord2      Legend of the Red Dragon II: New World     */
 /*      Score code: mzkl       MZK LORD                                   */
+/*      Score code: teos       Planets: The Exploration of Space          */
 /*      Score code: ooii       Operation: Overkill II                     */
 /*      Score code: usrpuscr   Usurper User Rankings                      */
 /*      Score code: usrptscr   Usurper Team Rankings                      */
@@ -87,7 +88,7 @@ g.debug            = 0  /* Show Errors to the SysOp's (account 1) screen.
 /* ok to change these as needed for your system */
 g.timeout          = 20 /* API http request timeout in seconds */
 
-/* ok to change these messages, but do not add ANSI or MCI codes. */
+/* ok to change these messages, feel free to add ANSI or MCI codes. */
 s.retrieving       = 'Retrieving Data'
 s.reqTimedOut      = 'Request timed out, please try again later.'
 s.cancelled        = 'Request Cancelled'
